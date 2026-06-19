@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>永代二丁目大神輿 台車整備 比較検討資料</title>
+<style>
+  :root {
+    --primary: #2c3e6b;
+    --accent: #3d5a99;
+    --bg: #ffffff;
+    --card-bg: #f8f9fa;
+    --alert-bg: #fff8e1;
+    --alert-border: #ffc107;
+    --border: #dee2e6;
+    --text: #333333;
+    --text-light: #666666;
+    --step-color: #2c3e6b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Meiryo", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-text-size-adjust: 100%;
+  }
+  .container { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+
+  /* Header */
+  .hero {
+    background: var(--primary);
+    color: #fff;
+    padding: 40px 16px 32px;
+    text-align: center;
+  }
+  .hero h1 { font-size: 1.5rem; line-height: 1.4; margin-bottom: 8px; font-weight: 700; }
+  .hero .subtitle { font-size: 0.95rem; opacity: 0.85; margin-bottom: 16px; }
+  .hero .meta { font-size: 0.85rem; opacity: 0.7; }
+  .hero .meta span { margin: 0 8px; }
+
+  /* TOC */
+  .toc {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 24px auto;
+    max-width: 720px;
+  }
+  .toc h2 { font-size: 1rem; margin-bottom: 12px; color: var(--primary); }
+  .toc ol { padding-left: 20px; }
+  .toc li { margin-bottom: 6px; font-size: 0.9rem; }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+
+  /* Sections */
+  section { padding: 32px 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+  h2 { font-size: 1.3rem; color: var(--primary); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 3px solid var(--primary); }
+  h3 { font-size: 1.1rem; color: var(--primary); margin: 20px 0 10px; }
+  p { margin-bottom: 12px; }
+
+  /* Alert box */
+  .alert {
+    background: var(--alert-bg);
+    border-left: 4px solid var(--alert-border);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 0.95rem;
+  }
+  .alert h3 { color: #e65100; margin: 0 0 8px; font-size: 1rem; }
+
+  /* Info box */
+  .info-box {
+    background: #e8edf5;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 16px 0;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 12px 0;
+  }
+  .card h3 {
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent);
+    font-size: 1.05rem;
+  }
+  .card .label {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 2px 10px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+  }
+  .merit { color: #2e7d32; }
+  .demerit { color: #c62828; }
+  .merit::before { content: "\25cb "; }
+  .demerit::before { content: "\25b3 "; }
+
+  ul.check-list {
+    list-style: none;
+    padding: 0;
+  }
+  ul.check-list li {
+    padding: 6px 0 6px 28px;
+    position: relative;
+    border-bottom: 1px solid #eee;
+  }
+  ul.check-list li::before {
+    content: "\2610";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 1.1rem;
+  }
+
+  ul.bullet {
+    padding-left: 20px;
+    margin-bottom: 12px;
+  }
+  ul.bullet li { margin-bottom: 4px; }
+
+  /* Steps */
+  .step-card {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 10px 0;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: var(--step-color);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .step-body h3 { margin: 0 0 4px; font-size: 1rem; }
+  .step-body p { margin: 0; font-size: 0.9rem; color: var(--text-light); }
+
+  /* Cost cards */
+  .cost-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 12px 0;
+  }
+  .cost-card .price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  .cost-card h3 { margin: 0 0 4px; font-size: 1rem; border: none; padding: 0; }
+
+  /* Reference links */
+  .ref-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 12px 0;
+  }
+  .ref-card h3 { margin: 0 0 10px; font-size: 1rem; border: none; padding: 0; }
+  .ref-card .link-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-top: 8px;
+  }
+  .ref-card .link-btn:hover { opacity: 0.85; }
+
+  /* Images */
+  .figure {
+    margin: 20px 0;
+    text-align: center;
+  }
+  .figure img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+  .figure figcaption {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 8px;
+  }
+
+  /* Table (for evaluation axes) */
+  .eval-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.9rem;
+  }
+  .eval-table th, .eval-table td {
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .eval-table th {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .eval-table tr:nth-child(even) { background: #f5f7fa; }
+
+  /* Mobile table scroll */
+  .table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 16px 0;
+  }
+
+  /* Footer */
+  .page-footer {
+    text-align: center;
+    padding: 32px 16px;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    border-top: 1px solid var(--border);
+  }
+
+  /* Disclaimer */
+  .disclaimer {
+    background: #fafafa;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 0.85rem;
+    color: var(--text-light);
+  }
+
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 1.3rem; }
+    h2 { font-size: 1.15rem; }
+    body { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="container">
+    <h1>永代二丁目大神輿用<br>台車整備に関する比較検討資料</h1>
+    <div class="subtitle">調達方法と機能要件を分離して比較する</div>
+    <div class="meta">
+      <span>永代二丁目睦会</span><span>検討用資料（町会内限り）</span><span>2026年6月</span>
+    </div>
+  </div>
+</header>
+
+<!-- Intro -->
+<div class="container">
+  <div class="info-box" style="margin-top:24px;">
+    <p>本資料は、永代二丁目大神輿の安全な運行、担ぎ手不足への対応、還幸時の負担軽減、神輿庫での保管性向上を目的として、台車整備の選択肢を整理するものです。特定案を決定するものではなく、町会内で比較検討するための資料です。</p>
+  </div>
+
+  <!-- TOC -->
+  <nav class="toc">
+    <h2>目次</h2>
+    <ol>
+      <li><a href="#premise">前提条件</a></li>
+      <li><a href="#background">検討の背景</a></li>
+      <li><a href="#axes">主な評価軸</a></li>
+      <li><a href="#flow">検討の進め方（意思決定フロー）</a></li>
+      <li><a href="#procurement">調達方法の選択肢（誰が作るか）</a></li>
+      <li><a href="#function">機能要件の選択肢（どう作るか）</a></li>
+      <li><a href="#cost">概算費用感</a></li>
+      <li><a href="#diy-risk">自作・半自作の確認事項</a></li>
+      <li><a href="#estimate">見積依頼時の確認情報</a></li>
+      <li><a href="#measure">実測項目</a></li>
+      <li><a href="#discussion">町会内で確認したい論点</a></li>
+      <li><a href="#examples">実例・参考画像</a></li>
+      <li><a href="#links">参考リンク一覧</a></li>
+    </ol>
+  </nav>
+</div>
+
+<div class="container">
+
+  <!-- 1. Premise -->
+  <section id="premise">
+    <h2>1. 前提条件</h2>
+    <div class="alert">
+      <h3>未実測データあり</h3>
+      <p>本資料の作成時点で、神輿本体の寸法・重量、台木装着時の外形、神輿庫の内寸はいずれも未実測です。したがって、耐荷重・保管性・昇降要否などの技術比較は仮定に基づきます。正式検討には実測データの取得が先行します。</p>
+    </div>
+    <p>正式検討にあたり、以下の実測が必要です：</p>
+    <ul class="bullet">
+      <li>神輿本体の幅・奥行き・高さ・重量</li>
+      <li>台木装着時の全長・全幅・高さ</li>
+      <li>神輿庫の入口幅・入口高さ・内部寸法</li>
+      <li>運行経路の段差・坂道・狭路</li>
+      <li>必要な人員と当日の運用方法</li>
+    </ul>
+  </section>
+
+  <!-- 2. Background -->
+  <section id="background">
+    <h2>2. 検討の背景</h2>
+    <p>なぜ台車整備を検討するのか：</p>
+    <ul class="bullet">
+      <li>担ぎ手の確保が年々難しくなる可能性がある</li>
+      <li>還幸時は疲労が大きく、安全管理が難しくなる</li>
+      <li>長距離移動、坂道、段差、狭路での安全性を確認する必要がある</li>
+      <li>高齢者・子どもを含む多世代参加のしやすさを高めたい</li>
+      <li>神輿庫での保管スペース、出し入れ動線を確認する必要がある</li>
+      <li>深川の水掛けに耐える防錆・防水・足回りが必要になる</li>
+    </ul>
+    <p>※ 担ぎと台車を場面に応じて使い分ける運用も含め、複数の方式を比較します。</p>
+  </section>
+
+  <!-- 3. Evaluation Axes -->
+  <section id="axes">
+    <h2>3. 主な評価軸</h2>
+    <figure class="figure">
+      <img src="images/overview-chart.png" alt="台車整備の検討軸の全体図：調達方法（誰が作るか）と機能要件（どんな機構を入れるか）を別軸で整理">
+      <figcaption>検討軸の全体図</figcaption>
+    </figure>
+    <div class="table-wrap">
+      <table class="eval-table">
+        <thead><tr><th>項目</th><th>確認内容</th></tr></thead>
+        <tbody>
+          <tr><td>耐荷重</td><td>神輿本体・台木・装飾・段差衝撃に耐えられるか</td></tr>
+          <tr><td>走行性</td><td>段差、凹凸、交差点、狭い道に対応できるか</td></tr>
+          <tr><td>制動性</td><td>坂道や停止時に安全に止められるか</td></tr>
+          <tr><td>固定方法</td><td>神輿や台木がずれない構造か</td></tr>
+          <tr><td>水対策</td><td>錆、ベアリング、ブレーキが水掛けに耐えられるか</td></tr>
+          <tr><td>保管性</td><td>神輿庫に収まるか。分割が必要か</td></tr>
+          <tr><td>外観</td><td>幕や木部化粧で祭礼らしさを保てるか</td></tr>
+          <tr><td>責任範囲</td><td>設計・製作・事故時の責任を明確にできるか</td></tr>
+          <tr><td>費用</td><td>製作費、修理費、メンテナンス費</td></tr>
+          <tr><td>運用</td><td>誰が組立・押し引き・ブレーキを担当するか</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 4. Decision Flow -->
+  <section id="flow">
+    <h2>4. 検討の進め方</h2>
+    <p>会議で検討を収束させるため、以下の順序で段階的に決定します。各ステップの成果物が次のステップの入力になります。</p>
+
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>実測</h3>
+        <p>神輿本体・台木装着時・神輿庫・経路を測る → 寸法表・写真・経路メモ</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>使用場面の合意</h3>
+        <p>常時台車か、還幸時のみか、長距離移動時のみかを決める → 運用方針</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>機能要件の合意</h3>
+        <p>昇降、分割、防水、防錆、外観の要否を決める → 見積条件</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>予算枠の設定</h3>
+        <p>概算費用を参考に検討上限を決める → 予算レンジ</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>見積取得</h3>
+        <p>複数業者に同一条件で見積依頼する → 見積比較表</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h3>調達方法の決定</h3>
+        <p>見積結果と要件を照合し、フルオーダー・半自作・既製品流用等を決める → 実行案</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Procurement Options -->
+  <section id="procurement">
+    <h2>5. 調達方法の選択肢（誰が作るか）</h2>
+    <p>以下は製作主体の軸で整理した選択肢。昇降・分割等の機能要件はいずれの調達方法とも組み合わせ可能です。</p>
+
+    <div class="card">
+      <span class="label">案A</span>
+      <h3>専門業者フルオーダー</h3>
+      <p>神輿台車や運搬台車の製作実績がある専門業者に、設計から製作まで一括して依頼する案。</p>
+      <p class="merit">安全性・完成度が高い</p>
+      <p class="merit">責任範囲が明確</p>
+      <p class="merit">保証・メンテナンス体制を確認しやすい</p>
+      <p class="demerit">費用が高い</p>
+      <p class="demerit">納期がかかる</p>
+      <p class="demerit">業者依存になりやすい</p>
+      <p style="font-size:0.85rem;color:var(--text-light);margin-top:8px;">参考：菅原護謨工業所、唐箕屋本店、ナダヨシ</p>
+    </div>
+
+    <div class="card">
+      <span class="label">案B</span>
+      <h3>専門業者ベース＋町会調整</h3>
+      <p>安全に直結する部分（フレーム、車輪、ブレーキ）は業者に依頼し、外観や運用は町会側で調整する案。</p>
+      <p class="merit">安全部分は業者、外観・運用は町会で調整可能</p>
+      <p class="merit">鳶頭の現場感覚も反映しやすい</p>
+      <p class="demerit">役割分担を書面化しないと責任が曖昧になる</p>
+      <p style="font-size:0.85rem;color:var(--text-light);margin-top:8px;">参考：唐箕屋本店、菅原護謨工業所</p>
+    </div>
+
+    <div class="card">
+      <span class="label">案C</span>
+      <h3>鳶頭・町会主導の半自作</h3>
+      <p>町会内の鳶頭を中心に設計・製作を主導する案。車輪・ブレーキ・金属加工などは専門部品・業者の活用を前提とする。</p>
+      <p class="merit">現場感覚を反映しやすい</p>
+      <p class="merit">費用を抑えられる可能性</p>
+      <p class="merit">修理・改造もしやすい</p>
+      <p class="demerit">台車設計・溶接強度・ブレーキは専門外の可能性</p>
+      <p class="demerit">町会としての説明責任が重くなる</p>
+      <p style="font-size:0.85rem;color:var(--text-light);margin-top:8px;">足回り参考：シシク、中部産業</p>
+    </div>
+
+    <div class="card">
+      <span class="label">案D</span>
+      <h3>既製台車・リフター流用</h3>
+      <p>既製の重量物用台車やハンドリフターをベースに検討する案。実用というより、試作・機構確認向き。</p>
+      <p class="merit">試作・検証がしやすい</p>
+      <p class="merit">部品調達が容易</p>
+      <p class="demerit">祭礼用ではないため、水・段差・人混みへの適合を別途検証する必要あり</p>
+      <p style="font-size:0.85rem;color:var(--text-light);margin-top:8px;">参考：中部産業の昇降台車</p>
+    </div>
+
+    <p style="font-size:0.85rem;color:var(--text-light);">※ ナダヨシは構造参考として掲載。現在の神輿台車の受注可否は要確認。</p>
+  </section>
+
+  <!-- 6. Function Options -->
+  <section id="function">
+    <h2>6. 機能要件の選択肢（どう作るか）</h2>
+    <p>調達方法とは別軸の機能・構造の選択肢です。互いに排他ではなく、組み合わせ可能です（例：固定式＋分割構造、油圧昇降＋一体型など）。</p>
+
+    <figure class="figure">
+      <img src="images/structure-comparison.png" alt="固定式と油圧昇降・分割式の構造イメージ比較図">
+      <figcaption>固定式と油圧昇降・分割式の構造イメージ（検討用）</figcaption>
+    </figure>
+
+    <div class="card">
+      <h3>昇降なし（固定式）</h3>
+      <p>台面の高さが固定。載せ降ろしは人力。</p>
+      <p class="merit">構造が単純で壊れにくい</p>
+      <p class="merit">費用を抑えやすい</p>
+      <p class="merit">水掛けにも比較的強い</p>
+      <p class="demerit">載せ降ろしに人手が必要</p>
+      <p class="demerit">保管時に高さが合わない可能性</p>
+    </div>
+
+    <div class="card">
+      <h3>油圧昇降あり</h3>
+      <p>足踏み油圧またはジャッキで台面高を調整。</p>
+      <p class="merit">載せ降ろし・保管時の高さ調整に有効</p>
+      <p class="merit">少人数での運用が可能</p>
+      <p class="demerit">費用増</p>
+      <p class="demerit">油圧部分の故障リスク</p>
+      <p class="demerit">水掛け時のシール劣化</p>
+      <p class="demerit">重心が高くなるため安定性に注意</p>
+    </div>
+
+    <div class="card">
+      <h3>分割構造</h3>
+      <p>前後分割または左右分割で搬入・保管。</p>
+      <p class="merit">神輿庫の入口・内部寸法に制約がある場合に有効</p>
+      <p class="merit">部品単位で扱いやすい</p>
+      <p class="demerit">結合部の強度・ガタつき</p>
+      <p class="demerit">組立に時間と工具が必要</p>
+    </div>
+
+    <div class="card">
+      <h3>一体型</h3>
+      <p>分割せず一体で保管・運用。</p>
+      <p class="merit">結合部がなく剛性が高い</p>
+      <p class="merit">組立不要</p>
+      <p class="demerit">保管スペースを大きく占有</p>
+      <p class="demerit">搬入口の寸法制約を受けやすい</p>
+    </div>
+  </section>
+
+  <!-- 7. Cost -->
+  <section id="cost">
+    <h2>7. 概算費用感</h2>
+    <div class="alert">
+      <p>大人神輿用台車の費用は個別見積が基本です。以下は公開事例・類似仕様・一般的な特注台車の価格感をもとにした概算目安であり、正式検討には必ず相見積もりを取ってください。</p>
+    </div>
+
+    <div class="cost-card">
+      <h3>簡易固定台車（鉄製・塗装）</h3>
+      <div class="price">30〜60万円</div>
+      <p>鉄フレーム、大径エアレス車輪×4、ストッパー、滑り止めゴム。幕・化粧なし。</p>
+    </div>
+
+    <div class="cost-card">
+      <h3>標準オーダー（ステンレス・幕付）</h3>
+      <div class="price">60〜120万円</div>
+      <p>ステンレスフレーム、レバー式ブレーキ、浮き上がり防止クランプ、紫幕・町会紋など。</p>
+    </div>
+
+    <div class="cost-card">
+      <h3>油圧昇降付き・フル装備</h3>
+      <div class="price">120〜200万円超</div>
+      <p>上記＋足踏み油圧昇降、防水シール処理、分割構造、木部化粧等。</p>
+    </div>
+
+    <div class="cost-card">
+      <h3>半自作（足回りのみ業者）</h3>
+      <div class="price">15〜40万円</div>
+      <p>キャスター・車輪を専門メーカーから調達し、フレームは町会側で製作。ただし安全検証費用は別途。</p>
+    </div>
+
+    <p style="font-size:0.85rem;color:var(--text-light);">※ 神輿サイズ・重量・仕様により大きく変動します。半自作の場合は、試験・保険・補修費用も予算に含めて検討してください。</p>
+  </section>
+
+  <!-- 8. DIY Risks -->
+  <section id="diy-risk">
+    <h2>8. 自作・半自作の確認事項</h2>
+    <p>自作・半自作は費用を抑えられる反面、設計・製作・試験・事故時対応の説明責任が町会側に残りやすくなります。「危険部分をどこまで専門家に任せるか」を明確にすることが重要です。</p>
+
+    <div class="table-wrap">
+      <table class="eval-table">
+        <thead><tr><th>確認項目</th><th>内容</th><th>未確認時のリスク</th></tr></thead>
+        <tbody>
+          <tr><td>設計責任</td><td>誰が寸法・耐荷重・構造を決めるか</td><td>構造破損時に責任の所在が不明</td></tr>
+          <tr><td>金属加工</td><td>溶接やフレーム製作を誰が行うか</td><td>溶接強度不足による走行中の破断</td></tr>
+          <tr><td>足回り</td><td>車輪径、耐荷重、材質、防水性</td><td>段差での車輪破損、水掛け後の固着</td></tr>
+          <tr><td>ブレーキ</td><td>坂道・停止時に安全に止められるか</td><td>坂道での暴走、人身事故</td></tr>
+          <tr><td>固定方法</td><td>神輿や台木がずれないか</td><td>走行中の神輿の落下・転倒</td></tr>
+          <tr><td>試験</td><td>重り試験、段差試験、坂道制動試験</td><td>本番で初めて不具合が発覚</td></tr>
+          <tr><td>記録</td><td>試験結果を写真・動画で残すか</td><td>事故時に安全配慮を説明できない</td></tr>
+          <tr><td>保険・責任</td><td>事故時に町会として説明できるか</td><td>賠償対応・説明責任が重くなる</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 9. Estimate Info -->
+  <section id="estimate">
+    <h2>9. 見積依頼時に確認する情報</h2>
+    <div class="table-wrap">
+      <table class="eval-table">
+        <thead><tr><th>項目</th><th>確認内容</th></tr></thead>
+        <tbody>
+          <tr><td>神輿寸法</td><td>本体寸法、台木装着時の全長・全幅・高さ</td></tr>
+          <tr><td>重量</td><td>神輿本体、台木、装飾を含めた概算重量</td></tr>
+          <tr><td>使用環境</td><td>水掛け、段差、坂道、橋周辺、狭い道</td></tr>
+          <tr><td>使用方法</td><td>常時使用か、還幸時のみか、長距離移動のみか</td></tr>
+          <tr><td>車輪</td><td>大径、ノーパンク、ウレタン、ゴム、エアレス等</td></tr>
+          <tr><td>ブレーキ</td><td>手元レバー式、足踏み式、車輪ロック式等</td></tr>
+          <tr><td>昇降</td><td>油圧あり、ジャッキ式、昇降なし</td></tr>
+          <tr><td>分割</td><td>一体型、前後分割、左右分割</td></tr>
+          <tr><td>防錆</td><td>ステンレス、溶融亜鉛メッキ、塗装等</td></tr>
+          <tr><td>外観</td><td>紫幕、紅白幕、町会紋、木部化粧</td></tr>
+          <tr><td>保管</td><td>神輿庫入口、奥行き、高さ、分割時寸法</td></tr>
+          <tr><td>メンテナンス</td><td>点検、部品交換、故障時対応</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 10. Measurement -->
+  <section id="measure">
+    <h2>10. 最初に測るべきもの（Step 1）</h2>
+    <h3>神輿本体</h3>
+    <ul class="check-list">
+      <li>幅</li>
+      <li>奥行き</li>
+      <li>高さ</li>
+      <li>重量</li>
+    </ul>
+    <h3>台木装着時</h3>
+    <ul class="check-list">
+      <li>全長</li>
+      <li>全幅</li>
+      <li>地面から台木下端までの高さ</li>
+    </ul>
+    <h3>神輿庫</h3>
+    <ul class="check-list">
+      <li>入口幅</li>
+      <li>入口高さ</li>
+      <li>内部奥行き</li>
+      <li>内部幅</li>
+      <li>天井高さ</li>
+    </ul>
+    <h3>運行経路</h3>
+    <ul class="check-list">
+      <li>段差</li>
+      <li>坂道</li>
+      <li>狭い道</li>
+      <li>曲がり角</li>
+    </ul>
+    <h3>保管動線</h3>
+    <ul class="check-list">
+      <li>台車を分割した場合の置き場所</li>
+      <li>出し入れ方法</li>
+    </ul>
+    <h3>人員</h3>
+    <ul class="check-list">
+      <li>組立担当人数</li>
+      <li>載せ降ろし担当人数</li>
+      <li>押し引き担当人数</li>
+      <li>ブレーキ担当人数</li>
+    </ul>
+  </section>
+
+  <!-- 11. Discussion Points -->
+  <section id="discussion">
+    <h2>11. 町会内で確認したい論点</h2>
+    <div class="table-wrap">
+      <table class="eval-table">
+        <thead><tr><th>論点</th><th>確認内容</th><th>対応Step</th></tr></thead>
+        <tbody>
+          <tr><td>使用場面</td><td>常時使用か、還幸時のみか、長距離移動時のみか</td><td>Step 2</td></tr>
+          <tr><td>担ぎとの関係</td><td>どの場面は担ぎ、どの場面は台車にするか</td><td>Step 2</td></tr>
+          <tr><td>油圧昇降</td><td>必要か、不要か、試作するか</td><td>Step 3</td></tr>
+          <tr><td>分割構造</td><td>必要か、不要か</td><td>Step 3</td></tr>
+          <tr><td>外観</td><td>幕、町会紋、木部化粧をどうするか</td><td>Step 3</td></tr>
+          <tr><td>予算</td><td>検討対象とする上限額</td><td>Step 4</td></tr>
+          <tr><td>相見積もり</td><td>何社に声をかけるか</td><td>Step 5</td></tr>
+          <tr><td>自作範囲</td><td>町会・鳶頭で行う部分と業者に依頼する部分</td><td>Step 6</td></tr>
+          <tr><td>試験運用</td><td>本番前にどの試験を行うか</td><td>Step 6</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="info-box" style="margin-top:16px;">
+      <p><strong>会議での使い方：</strong>この資料では結論を出さず、まず「実測」と「使用場面」を合意する。その後、油圧・分割・外観・予算の順に絞り込む。</p>
+    </div>
+  </section>
+
+  <!-- 12. Examples -->
+  <section id="examples">
+    <h2>12. 実例・参考画像</h2>
+    <p>以下は公開ページの参考情報です。永代二丁目大神輿にそのまま適用できるとは限りません。詳細は各リンク先をご確認ください。</p>
+
+    <div class="ref-card">
+      <h3>菅原護謨工業所｜神輿曳台車</h3>
+      <ul class="bullet">
+        <li>オーダーメイド製作</li>
+        <li>ステンレスフレーム、バネ付きキャスター</li>
+        <li>レバー式ブレーキ、滑り止め、緩衝ゴム</li>
+      </ul>
+      <a class="link-btn" href="https://sk56pro.com/mikoshidaisya/" target="_blank" rel="noopener">公式サイトを見る</a>
+    </div>
+
+    <div class="ref-card">
+      <h3>唐箕屋本店｜大人神輿用台車</h3>
+      <ul class="bullet">
+        <li>鉄製・ステンレス製フレームの事例</li>
+        <li>紫幕・町名入りなど外観仕上げの参考</li>
+        <li>大人神輿用の寸法感・見た目の参考</li>
+      </ul>
+      <a class="link-btn" href="https://tomiyahonten.com/2010/03/31/mikoshidaisya/" target="_blank" rel="noopener">公式サイトを見る</a>
+    </div>
+
+    <div class="ref-card">
+      <h3>シシク｜神輿台車・足回り</h3>
+      <ul class="bullet">
+        <li>Φ300エアレス車輪の参考</li>
+        <li>4輪ストッパー、浮き上がり防止クランプ加工</li>
+        <li>足回り・固定・制動の検討に有用</li>
+      </ul>
+      <a class="link-btn" href="https://www.sisiku.com/special_item/16569" target="_blank" rel="noopener">公式サイトを見る</a>
+    </div>
+
+    <div class="ref-card">
+      <h3>中部産業｜山車・神輿向けキャスター</h3>
+      <ul class="bullet">
+        <li>山車・子ども神輿向けのキャスター選定例</li>
+        <li>ノーパンクタイヤ等の足回り選定の参考</li>
+        <li>非乗用向けなど用途条件は要確認</li>
+      </ul>
+      <a class="link-btn" href="https://www.chubu-sangyo.co.jp/caster/caster_tire_festival.html" target="_blank" rel="noopener">公式サイトを見る</a>
+    </div>
+
+    <div class="ref-card">
+      <h3>中部産業｜昇降台車・リフター台車</h3>
+      <ul class="bullet">
+        <li>足踏み油圧、パンタグラフ式の参考</li>
+        <li>低床で差し込み、昇降させる考え方</li>
+        <li>祭礼用ではないため水・段差・人混み・固定は別途検証</li>
+      </ul>
+      <a class="link-btn" href="https://www.chubu-sangyo.co.jp/lift/lift.htm" target="_blank" rel="noopener">公式サイトを見る</a>
+    </div>
+
+    <div class="disclaimer">
+      <p>※ 油圧昇降は「神輿台車の実例」ではなく、機構参考として扱います。実装する場合は荷重、重心、水対策、故障時対応を個別に検討してください。</p>
+    </div>
+  </section>
+
+  <!-- 13. Links -->
+  <section id="links">
+    <h2>13. 参考リンク一覧</h2>
+    <div class="table-wrap">
+      <table class="eval-table">
+        <thead><tr><th>分類</th><th>名称</th><th>リンク</th></tr></thead>
+        <tbody>
+          <tr><td>神輿台車</td><td>菅原護謨工業所「神輿曳台車」</td><td><a href="https://sk56pro.com/mikoshidaisya/" target="_blank" rel="noopener">sk56pro.com</a></td></tr>
+          <tr><td>神輿台車</td><td>唐箕屋本店「お神輿の台車」</td><td><a href="https://tomiyahonten.com/2010/03/31/mikoshidaisya/" target="_blank" rel="noopener">tomiyahonten.com</a></td></tr>
+          <tr><td>構造参考</td><td>ナダヨシ「神輿台車」</td><td><a href="https://www.nadayoshi.co.jp/pages/11/detail=1/b_id=26/r_id=27/" target="_blank" rel="noopener">nadayoshi.co.jp</a>（受注可否要確認）</td></tr>
+          <tr><td>足回り</td><td>シシク「神輿台車」</td><td><a href="https://www.sisiku.com/special_item/16569" target="_blank" rel="noopener">sisiku.com</a></td></tr>
+          <tr><td>足回り</td><td>中部産業「山車・神輿向けキャスター」</td><td><a href="https://www.chubu-sangyo.co.jp/caster/caster_tire_festival.html" target="_blank" rel="noopener">chubu-sangyo.co.jp</a></td></tr>
+          <tr><td>油圧機構</td><td>中部産業「昇降台車／リフター台車」</td><td><a href="https://www.chubu-sangyo.co.jp/lift/lift.htm" target="_blank" rel="noopener">chubu-sangyo.co.jp</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="disclaimer">
+      <p>※ 実例画像・リンクは仕様検討の参考です。転載・対外配布時は出典元の利用条件を確認してください。</p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="page-footer">
+  <p>永代二丁目睦会　台車整備比較検討資料　2026年6月</p>
+  <p>本資料は町会内での検討用です。無断転載・対外配布はご遠慮ください。</p>
+</footer>
+
+</body>
+</html>
